@@ -2,98 +2,723 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Formulário de Staff</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAINEL ADMINISTRATIVO - OMESAGISTO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { border: 1px solid #ccc; padding: 15px; max-width: 600px; margin-bottom: 20px; }
-        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
-        button { background-color: navy; color: white; padding: 10px 15px; border: none; cursor: pointer; }
-        button:disabled { background-color: #cccccc; cursor: not-allowed; } /* Estilo para botão desabilitado */
-        /* Estilos para as mensagens de feedback */
-        #form-message { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .developer-credit {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: #888;
+            z-index: 1000;
+            background: rgba(255,255,255,0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .omesagisto-badge {
+            display: inline-block;
+            background: #3f51b5;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .admin-header h1 {
+            font-size: 2.1rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .admin-header p {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .admin-header i {
+            font-size: 3rem;
+            color: #3f51b5;
+            margin-bottom: 10px;
+        }
+
+        .application-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .application-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .application-card h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .application-card h2 i {
+            margin-right: 10px;
+            color: #3f51b5;
+        }
+        
+        .application-card p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .application-card p strong {
+            color: #555;
+            display: inline-block;
+            width: 150px;
+        }
+
+        .application-card .reason-text {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            margin-top: 8px;
+            line-height: 1.4;
+            color: #555;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #888;
+            text-align: right;
+            margin-top: 8px;
+        }
+
+        .no-applications {
+            text-align: center;
+            color: #888;
+            font-size: 1.1rem;
+            padding: 40px 0;
+        }
+        
+        .login-container {
+            max-width: 350px;
+            margin: 0 auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .login-header h2 {
+            color: #2c3e50;
+            font-size: 1.6rem;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-group label i {
+            margin-right: 8px;
+            color: #3f51b5;
+            width: 20px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            color: #333;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3f51b5;
+            background: #fff;
+        }
+        
+        .btn-submit {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-submit:hover {
+            background: #303f9f;
+        }
+        
+        .btn-submit i {
+            margin-right: 8px;
+        }
+        
+        .logout-btn {
+            background: #e53935;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+        
+        .logout-btn:hover {
+            background: #c62828;
+        }
+        
+        .admin-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .admin-panel.active {
+            display: block;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            z-index: 10000;
+            animation: slideIn 0.2s ease, fadeOut 0.4s ease 2.5s forwards;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        .notification.success {
+            background: #4caf50;
+        }
+        
+        .notification.error {
+            background: #f44336;
+        }
+
+        .admin-app-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-approve {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-approve:hover {
+            background: #218838;
+        }
+        .btn-approve[disabled] {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .btn-approve[disabled]:hover {
+            background-color: #95a5a6;
+        }
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+        
+        .application-card.approved-card {
+            border-left: 5px solid #28a745;
+            background-color: #f0fff4;
+        }
+        
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .status-approved {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #3f51b5;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>FORMULÁRIO PARA STAFF</h1>
-        <p>Servidor do OMESAGISTO</p>
-
-        <form id="staffForm">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" required min="13">
-
-            <label for="discord">Discord (Nick):</label>
-            <input type="text" id="discord" name="discord" required>
+        <div class="admin-header">
+            <i class="fas fa-user-shield"></i>
+            <h1>PAINEL ADMINISTRATIVO</h1>
+            <p>Visualizar Aplicações para Staff - OMESAGISTO</p>
+            <span class="omesagisto-badge">v2.0</span>
+        </div>
+        
+        <div id="loginPanel">
+            <div class="login-container">
+                <div class="login-header">
+                    <h2>Acesso Restrito</h2>
+                    <p>Somente para administradores</p>
+                </div>
+                <form id="adminLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="adminPass"><i class="fas fa-lock"></i> Senha de Administrador</label>
+                        <input type="password" id="adminPass" class="form-control" required placeholder="Digite a senha">
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> ACESSAR PAINEL
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-actions">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
             
-            <label for="motivo">Por que quer ser staff aqui?</label>
-            <textarea id="motivo" name="motivo" rows="4" required></textarea>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalApplications">0</div>
+                    <div class="stat-label">Aplicações</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingApplications">0</div>
+                    <div class="stat-label">Pendentes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedApplications">0</div>
+                    <div class="stat-label">Aprovadas</div>
+                </div>
+            </div>
+            
+            <div id="applicationList" class="application-list">
+                <!-- Aplicações serão carregadas aqui -->
+            </div>
 
-            <div id="form-message"></div>
-
-            <button type="submit" id="submitBtn">ENVIAR</button>
-        </form>
+            <div id="noApplications" class="no-applications" style="display: none;">
+                <p><i class="fas fa-inbox"></i> Nenhuma aplicação encontrada.</p>
+            </div>
+        </div>
     </div>
-
-    <div class="container">
-        <a href="respostas.php">
-            <button>Ver Respostas Recebidas</button>
-        </a>
-    </div>
+    
+    <div class="developer-credit">Desenvolvido por Yovree</div>
 
     <script>
-        // Pega os elementos do HTML que vamos manipular
-        const form = document.getElementById('staffForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const messageDiv = document.getElementById('form-message');
-
-        // Adiciona um "escutador" para o evento de envio do formulário
-        form.addEventListener('submit', function(event) {
-            // 1. Previne o comportamento padrão do formulário (que é recarregar a página)
-            event.preventDefault();
-
-            // Desabilita o botão para evitar múltiplos cliques
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-
-            // 2. Coleta todos os dados do formulário
-            const formData = new FormData(form);
-
-            // 3. Envia os dados para o servidor usando a API Fetch (AJAX)
-            fetch('enviar.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json()) // Converte a resposta do PHP (JSON) em um objeto JS
-            .then(data => {
-                // 4. Processa a resposta recebida do servidor
-                messageDiv.style.display = 'block'; // Mostra a caixa de mensagem
-                messageDiv.textContent = data.message;
-
-                if (data.success) {
-                    messageDiv.className = 'success'; // Adiciona a classe de estilo verde
-                    form.reset(); // Limpa o formulário
-                } else {
-                    messageDiv.className = 'error'; // Adiciona a classe de estilo vermelha
+        // Simular o Firebase usando localStorage
+        const storageKey = 'omesagistoStaffApplications';
+        const adminPassKey = 'adminPassword';
+        
+        // Inicializar applications array se não existir no localStorage
+        if (!localStorage.getItem(storageKey)) {
+            const sampleApplications = [
+                {
+                    id: 'app-1',
+                    name: 'Carlos Silva',
+                    age: '25',
+                    discord: 'carloss#1234',
+                    experience: 'Sim, em servidor anterior',
+                    hours: '4-6 horas por dia',
+                    reason: 'Sou muito organizado e tenho experiência em moderar servidores de Minecraft. Já trabalhei em um servidor com mais de 500 jogadores diários e sei lidar com situações de conflito.',
+                    timestamp: new Date().toISOString(),
+                    approved: false
+                },
+                {
+                    id: 'app-2',
+                    name: 'Mariana Costa',
+                    age: '22',
+                    discord: 'mari_gamer#5678',
+                    experience: 'Não, primeira vez',
+                    hours: '3-5 horas por dia',
+                    reason: 'Amo Minecraft e a comunidade do OMESAGISTO. Quero ajudar a manter o servidor um lugar agradável para todos. Sou paciente e tenho boa comunicação.',
+                    timestamp: new Date(Date.now() - 86400000).toISOString(), // 1 dia atrás
+                    approved: true
+                },
+                {
+                    id: 'app-3',
+                    name: 'Ricardo Oliveira',
+                    age: '28',
+                    discord: 'rick_oliveira#9012',
+                    experience: 'Sim, em dois servidores',
+                    hours: '6+ horas por dia',
+                    reason: 'Tenho vasta experiência com plugins e administração de servidores. Sei resolver problemas técnicos e lidar com jogadores problemáticos de forma eficiente.',
+                    timestamp: new Date(Date.now() - 172800000).toISOString(), // 2 dias atrás
+                    approved: false
                 }
-            })
-            .catch(error => {
-                // Executa se houver um erro de rede ou na conexão
-                console.error('Erro:', error);
-                messageDiv.style.display = 'block';
-                messageDiv.className = 'error';
-                messageDiv.textContent = 'Houve um erro de conexão. Tente novamente mais tarde.';
-            })
-            .finally(() => {
-                // Executa sempre ao final, dando certo ou errado
-                // Reabilita o botão após a tentativa de envio
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'ENVIAR';
-            });
+            ];
+            localStorage.setItem(storageKey, JSON.stringify(sampleApplications));
+        }
+
+        // Configurar senha padrão na primeira execução
+        if (!localStorage.getItem(adminPassKey)) {
+            localStorage.setItem(adminPassKey, 'omesagisto123');
+        }
+        
+        // Função para mostrar notificação
+        function showNotification(message, isSuccess) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${isSuccess ? 'success' : 'error'}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Função para apagar uma aplicação
+        function deleteApplication(id) {
+            if (confirm('Tem certeza que deseja apagar esta aplicação?')) {
+                let applications = JSON.parse(localStorage.getItem(storageKey)) || [];
+                const initialLength = applications.length;
+                applications = applications.filter(app => app.id !== id);
+                
+                if (applications.length < initialLength) {
+                    localStorage.setItem(storageKey, JSON.stringify(applications));
+                    loadApplications(); // Re-renderizar a lista após a exclusão
+                    showNotification('Aplicação apagada com sucesso!', true);
+                } else {
+                    showNotification('Erro ao apagar a aplicação.', false);
+                }
+            }
+        }
+
+        // Função para aprovar uma aplicação
+        function approveApplication(id) {
+            if (confirm('Tem certeza que deseja aprovar esta aplicação?')) {
+                let applications = JSON.parse(localStorage.getItem(storageKey)) || [];
+                let found = false;
+                applications = applications.map(app => {
+                    if (app.id === id) {
+                        app.approved = true;
+                        found = true;
+                    }
+                    return app;
+                });
+                
+                if (found) {
+                    localStorage.setItem(storageKey, JSON.stringify(applications));
+                    loadApplications(); // Re-renderizar a lista para refletir a aprovação
+                    showNotification('Aplicação aprovada com sucesso!', true);
+                } else {
+                    showNotification('Erro ao aprovar a aplicação.', false);
+                }
+            }
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            const applications = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const total = applications.length;
+            const pending = applications.filter(app => !app.approved).length;
+            const approved = applications.filter(app => app.approved).length;
+            
+            document.getElementById('totalApplications').textContent = total;
+            document.getElementById('pendingApplications').textContent = pending;
+            document.getElementById('approvedApplications').textContent = approved;
+        }
+
+        // Carregar aplicações do localStorage e renderizar na tela
+        function loadApplications() {
+            const applicationListDiv = document.getElementById('applicationList');
+            const noApplicationsDiv = document.getElementById('noApplications');
+            
+            // Limpar lista atual
+            applicationListDiv.innerHTML = '';
+            
+            let applications = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            // Criar uma cópia para ordenação e exibição
+            const applicationsToDisplay = [...applications];
+            // Ordenar por data (mais recente primeiro)
+            applicationsToDisplay.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            if (applicationsToDisplay.length === 0) {
+                applicationListDiv.style.display = 'none';
+                noApplicationsDiv.style.display = 'block';
+            } else {
+                applicationListDiv.style.display = 'grid';
+                noApplicationsDiv.style.display = 'none';
+                
+                applicationsToDisplay.forEach(app => {
+                    const card = document.createElement('div');
+                    card.classList.add('application-card');
+                    if (app.approved) {
+                        card.classList.add('approved-card');
+                    }
+                    
+                    // Formatar data para exibição
+                    const date = new Date(app.timestamp);
+                    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} às ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+                    
+                    card.innerHTML = `
+                        <div class="status-badge ${app.approved ? 'status-approved' : 'status-pending'}">
+                            ${app.approved ? 'Aprovado' : 'Pendente'}
+                        </div>
+                        <h2><i class="fas fa-file-alt"></i> Aplicação de ${app.name}</h2>
+                        <p><strong>Nome:</strong> ${app.name}</p>
+                        <p><strong>Idade:</strong> ${app.age}</p>
+                        <p><strong>Discord:</strong> ${app.discord}</p>
+                        <p><strong>Já foi staff:</strong> ${app.experience}</p>
+                        <p><strong>Horas disponíveis:</strong> ${app.hours}</p>
+                        <p><strong>Motivo:</strong></p>
+                        <div class="reason-text">${app.reason}</div>
+                        <div class="timestamp">Enviado em: ${formattedDate}</div>
+                        <div class="admin-app-actions">
+                            <button class="btn-approve" data-id="${app.id}" ${app.approved ? 'disabled' : ''}>
+                                <i class="fas fa-check-circle"></i> ${app.approved ? 'Aprovado' : 'Aprovar'}
+                            </button>
+                            <button class="btn-delete" data-id="${app.id}">
+                                <i class="fas fa-trash-alt"></i> Apagar
+                            </button>
+                        </div>
+                    `;
+                    applicationListDiv.appendChild(card);
+                });
+
+                // Anexar event listeners aos botões de apagar e aprovar
+                applicationListDiv.querySelectorAll('.btn-delete').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const idToDelete = this.getAttribute('data-id');
+                        deleteApplication(idToDelete);
+                    });
+                });
+
+                applicationListDiv.querySelectorAll('.btn-approve').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const idToApprove = this.getAttribute('data-id');
+                        approveApplication(idToApprove);
+                    });
+                });
+            }
+            
+            // Atualizar estatísticas
+            updateStats();
+        }
+        
+        // Sistema de login para administradores
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const loginPanel = document.getElementById('loginPanel');
+        const adminPanel = document.getElementById('adminPanel');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const passwordInput = document.getElementById('adminPass').value;
+            const correctPassword = localStorage.getItem(adminPassKey);
+            
+            if (passwordInput === correctPassword) {
+                // Login bem-sucedido
+                loginPanel.style.display = 'none';
+                adminPanel.classList.add('active');
+                loadApplications(); // Carrega as aplicações após o login
+                showNotification('Login realizado com sucesso!', true);
+            } else {
+                // Senha incorreta
+                showNotification('Senha incorreta. Tente novamente.', false);
+                document.getElementById('adminPass').value = '';
+            }
+        });
+        
+        // Botão de logout
+        logoutBtn.addEventListener('click', () => {
+            adminPanel.classList.remove('active');
+            loginPanel.style.display = 'block';
+            document.getElementById('adminPass').value = '';
+            showNotification('Sessão encerrada com sucesso.', true);
+        });
+        
+        // Inicializar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verificar se já está logado (para desenvolvimento)
+            // Em produção, remover isso
+            const isLoggedIn = false; // Alterar para true para desenvolvimento
+            if (isLoggedIn) {
+                loginPanel.style.display = 'none';
+                adminPanel.classList.add('active');
+                loadApplications();
+            }
         });
     </script>
 </body>
